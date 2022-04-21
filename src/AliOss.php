@@ -1,6 +1,6 @@
 <?php
 namespace Surpaimb\AliOssUpload;
-use Surpaimb\Admin\Form\Field;
+use Encore\Admin\Form\Field;
 class AliOss extends Field
 {
     protected $view = 'alioss-upload::index';

@@ -2,8 +2,8 @@
 
 namespace Surpaimb\AliOssUpload;
 
-use Surpaimb\Admin\Admin;
-use Surpaimb\Admin\Form;
+use Encore\Admin\Admin;
+use Encore\Admin\Form;
 use Illuminate\Support\ServiceProvider;
 
 class AliOssUploadServiceProvider extends ServiceProvider
