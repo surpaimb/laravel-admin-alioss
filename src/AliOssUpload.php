@@ -2,7 +2,7 @@
 
 namespace Surpaimb\AliOssUpload;
 
-use Surpaimb\Admin\Extension;
+use Encore\Admin\Extension;
 
 class AliOssUpload extends Extension
 {
