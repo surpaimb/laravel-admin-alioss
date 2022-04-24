@@ -82,6 +82,7 @@
   function init_upload(id, csrf_token) {
     var browse_button = $("#" + id + "_alioss_upload");
     var multi = Boolean(browse_button.attr("data-multi"));
+    var type = browse_button.attr("data-type");
     var container = document.getElementById(id + "_container");
     if (multi) {
       // 多图可拖动
@@ -104,8 +105,10 @@
       multipart_params: { _token: csrf_token },
       //过滤
       filters: {
-        max_file_size: "10mb",
-        mime_types: [{ title: "Image files", extensions: "jpg,jpeg,gif,png" }],
+        max_file_size: "4gb",
+        mime_types: [
+          // { title: "Image files", extensions: "jpg,jpeg,gif,png" }
+        ],
       },
       init: {
         FilesAdded: function (up, files) {
@@ -141,39 +144,58 @@
         },
         FileUploaded: function (up, file, info) {
           var path = key + filename_new;
-          // var src = oss_url + '/' + path +'?x-oss-process=image/resize,m_fill,h_100,w_100';
-          // if(multi) {
-          //     // 多图
-          //     $('#' + file.id).html([
-          //         '<img src="'+src+'" style="margin-bottom: 3px">',
-          //         '<div class="operat_warp" style="display: inline-block">',
-          //         '<input type="hidden" name="'+id+'[]" value="'+path+'" />',
-          //         '<a href="'+oss_url + '/' + path+'" target="_blank">预览</a> / ',
-          //         '<a href="javascript:void(0);" onclick="alioss_del_file(this,1)" data-filename="'+path+'">删除</a>',
-          //         '</div>'
-          //     ].join(''));
-          // }else{
-          //     // 单图
-          //     browse_button.attr('src',src);
-          //     var operat_warp = browse_button.parents('.show_upload_pic_item').find('.operat_warp');
-          //     var a_s = operat_warp.find('a');
-          //     a_s.eq(0).attr('href',oss_url + '/' + path);
-          //     a_s.eq(1).attr('data-filename',path);
-          //     operat_warp.show().find('input').val(path);
-          //     $('#'+file.id).remove();
-          // }
-          browse_button.attr(
-            "src",
-            "/vendor/laravel-admin-ext/alioss-upload/pic_success.png"
-          );
-          var operat_warp = browse_button
-            .parents(".show_upload_pic_item")
-            .find(".operat_warp");
-          var a_s = operat_warp.find("a");
-          a_s.eq(0).attr("href", oss_url + "/" + path);
-          a_s.eq(1).attr("data-filename", path);
-          operat_warp.show().find("input").val(path);
-          $("#" + file.id).remove();
+          var src =
+            oss_url +
+            "/" +
+            path +
+            "?x-oss-process=image/resize,m_fill,h_100,w_100";
+          if (type == "images") {
+            // 多图
+            $("#" + file.id).html(
+              [
+                '<img src="' + src + '" style="margin-bottom: 3px">',
+                '<div class="operat_warp" style="display: inline-block">',
+                '<input type="hidden" name="' +
+                  id +
+                  '[]" value="' +
+                  path +
+                  '" />',
+                '<a href="' +
+                  oss_url +
+                  "/" +
+                  path +
+                  '" target="_blank">预览</a> / ',
+                '<a href="javascript:void(0);" onclick="alioss_del_file(this,1)" data-filename="' +
+                  path +
+                  '">删除</a>',
+                "</div>",
+              ].join("")
+            );
+          } else if (type == "image") {
+            // 单图
+            browse_button.attr("src", src);
+            var operat_warp = browse_button
+              .parents(".show_upload_pic_item")
+              .find(".operat_warp");
+            var a_s = operat_warp.find("a");
+            a_s.eq(0).attr("href", oss_url + "/" + path);
+            a_s.eq(1).attr("data-filename", path);
+            operat_warp.show().find("input").val(path);
+            $("#" + file.id).remove();
+          } else {
+            browse_button.attr(
+              "src",
+              "/vendor/laravel-admin-ext/alioss-upload/pic_success.png"
+            );
+            var operat_warp = browse_button
+              .parents(".show_upload_pic_item")
+              .find(".operat_warp");
+            var a_s = operat_warp.find("a");
+            a_s.eq(0).attr("href", oss_url + "/" + path);
+            a_s.eq(1).attr("data-filename", path);
+            operat_warp.show().find("input").val(path);
+            $("#" + file.id).remove();
+          }
         },
         UploadComplete: function (up, files) {},
         Error: function (up, err) {

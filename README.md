@@ -27,7 +27,8 @@ php artisan vendor:publish --provider=Surpaimb\AliOssUpload\AliOssUploadServiceP
 ## 使用
 在form表单中使用它
 ```php
-$form->aliOss('pic', '图片')->attribute('file');  // 单图（默认）
+$form->aliOss('pic', '图片')->attribute('image');  // 单图（默认）
 $form->aliOss('pic2', '图片2')->attribute('images'); // 多图
+$form->aliOss('pic3', '图片2')->attribute('file'); // 多图
 ```
 

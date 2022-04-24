@@ -5,10 +5,14 @@
         @if(strpos($attributes, 'images') === false)
             <?php
                 $all_path =  old($id, $value) ? config('admin.extensions.alioss-upload.OSS_URL') . '/' . old($id, $value) : '';
-                $resize_path = $all_path ? $all_path . '?x-oss-process=image/resize,m_fill,h_100,w_100' : '';
+                if(strpos($attributes, 'file') === false){
+                    $resize_path = $all_path ? $all_path . '?x-oss-process=image/resize,m_fill,h_100,w_100' : '';
+                }else{
+                    $resize_path = '/vendor/laravel-admin-ext/alioss-upload/pic_add.png';
+                }
             ?>
             <div class="show_upload_pic_item">
-                <img data-multi="" id="{{$id}}_alioss_upload" class="Js_alioss_btn" src="{{$resize_path ? $resize_path : '/vendor/laravel-admin-ext/alioss-upload/pic_add.png'}}">
+                <img data-multi="" data-type="{{$attributes}}" id="{{$id}}_alioss_upload" class="Js_alioss_btn" src="{{$resize_path ? $resize_path : '/vendor/laravel-admin-ext/alioss-upload/pic_add.png'}}">
                 <div class="operat_warp" @if(old($id, $value)) style="display: inline-block;" @endif>
                     <input type="hidden" name="{{$id}}" value="{{old($id, $value)}}">
                     <a href="{{$all_path}}" target="_blank">预览</a> /
@@ -21,7 +25,7 @@
                 <div id="{{$id}}_container"></div>
             </div>
         @else
-            <button data-multi="true" id="{{$id}}_alioss_upload" type="button" class="btn btn-success btn-flat Js_alioss_btn">选择文件</button>
+            <button data-multi="true" data-type="{{$attributes}}" id="{{$id}}_alioss_upload" type="button" class="btn btn-success btn-flat Js_alioss_btn">选择文件</button>
             <div class="box box-widget">
                 <!-- /.box-header -->
                 <div id="{{$id}}_container" class="box-body show_upload_pic">
