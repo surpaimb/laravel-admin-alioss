@@ -15,7 +15,7 @@ class AliOssUploadController extends Controller
         $key= $config['OSS_ACCESS_KEY'];
         $host = $config['OSS_HOST'];
         $now = time();
-        $expire = 180; //设置该policy超时时间，秒
+        $expire = 24 * 3600; //设置该policy超时时间，秒
         $end = $now + $expire;
         $expiration = $this->gmt_iso8601( $end );
 
@@ -23,7 +23,7 @@ class AliOssUploadController extends Controller
         $dir = $uploadDir = "files/". date( "Ym" )."/".date( "d" )."/" ; //'user-dir/';
 
         //最大文件大小 20M
-        $condition = array( 0=>'content-length-range', 1=>0, 2=>20480000 );
+        $condition = array( 0=>'content-length-range', 1=>0, 2=>4 * 1024 * 1024 * 1024 );
         $conditions[] = $condition;
 
         //表示用户上传的数据,必须是以$dir开始,不然上传会失败,这一步不是必须项,只是为了安全起见,防止用户通过policy上传到别人的目录
