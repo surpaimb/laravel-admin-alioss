@@ -8,7 +8,7 @@
                 if(strcmp($attributes, 'image') == 0){
                     $resize_path = $all_path ? $all_path . '?x-oss-process=image/resize,m_fill,h_100,w_100' : '';
                 }else{
-                    $resize_path = '/vendor/laravel-admin-ext/alioss-upload/pic_success.png';
+                    $resize_path = $all_path ? '/vendor/laravel-admin-ext/alioss-upload/pic_success.png' : '';
                 }
             ?>
             <div class="show_upload_pic_item">
